@@ -46,6 +46,8 @@ Externals to leave as requires of the build.
 
 ```ts
 // prebundle.config.mjs
+
+/** @type {import('prebundle-esm').Config} */
 export default {
   dependencies: [
     {
@@ -210,5 +212,27 @@ Whether to prettier the code and strip comments, default `false`.
 // prebundle.config.mjs
 export default {
   prettier: true,
+};
+```
+
+### esm
+
+set `format` to `esm` to build esm package.
+
+```ts
+// prebundle.config.mjs
+/** @type {import('prebundle-esm').Config} */
+export default {
+  dependencies: [
+    {
+      name: 'foo',
+      target: 'es2015',
+    },
+    {
+      name: '@aws-sdk/client-s3',
+      esbuildPlatform: 'node',
+      format: 'esm',
+    },
+  ],
 };
 ```
