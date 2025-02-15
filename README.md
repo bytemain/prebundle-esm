@@ -57,7 +57,7 @@ export default {
       name: '@aws-sdk/client-s3',
       esbuildPlatform: 'node',
       esbuildExportCjsNamedExport: true,
-      esbuildExportStarAsDefault: false;
+      esbuildExportStarAsDefault: false,
       format: 'esm',
     },
   ],
