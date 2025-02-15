@@ -7,17 +7,23 @@ const require = createRequire(import.meta.url);
 const { dirname: __dirname } = import.meta;
 
 // https://github.com/evanw/esbuild/issues/744
+// https://github.com/evanw/esbuild/issues/442
 const cjs_to_esm_plugin: Plugin = {
     name: 'cjs-to-esm',
     setup(build) {
         build.onResolve({ filter: /.*/ }, args => {
+            // importer 为空时，表示入口文件
             if (args.importer === '') return { path: args.path, namespace: 'c2e' }
         })
         build.onLoad({ filter: /.*/, namespace: 'c2e' }, args => {
             const keys = Object.keys(require(args.path)).join(', ')
             const path = JSON.stringify(args.path)
             const resolveDir = __dirname
-            return { contents: `export { ${keys} } from ${path}`, resolveDir }
+            return {
+                contents: `import * as _default from ${path};
+export { ${keys} } from ${path};
+export default _default;`, resolveDir
+            }
         })
     },
 }
