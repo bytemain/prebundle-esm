@@ -37,6 +37,15 @@ export type DependencyConfig = {
   esbuildAlias?: Record<string, string>;
   esbuildExternal?: string[];
   esbuildPlatform?: Platform;
+  /**
+   * Export * as default from CommonJS modules.
+   * Cannot used when a module already export default.
+   */
+  esbuildExportStarAsDefault?: boolean;
+  /**
+   * Export named exports from CommonJS modules.
+   */
+  esbuildExportCjsNamedExport?: boolean;
 };
 
 export type Config = {
@@ -66,6 +75,8 @@ export type ParsedTask = {
   esbuildPlatform?: DependencyConfig['esbuildPlatform'];
   esbuildAlias?: DependencyConfig['esbuildAlias'];
   esbuildExternal?: DependencyConfig['esbuildExternal'];
+  esbuildExportStarAsDefault?: DependencyConfig['esbuildExportStarAsDefault'];
+  esbuildExportCjsNamedExport?: DependencyConfig['esbuildExportCjsNamedExport'];
   depName: NonNullable<DependencyConfig['name']>;
   externals: NonNullable<DependencyConfig['externals']>;
   dtsExternals: NonNullable<DependencyConfig['dtsExternals']>;

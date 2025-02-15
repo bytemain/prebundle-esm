@@ -76,6 +76,8 @@ export function parseTasks(
         esbuildPlatform: dep.esbuildPlatform,
         esbuildAlias: dep.esbuildAlias,
         esbuildExternal: dep.esbuildExternal,
+        esbuildExportCjsNamedExport: dep.esbuildExportCjsNamedExport,
+        esbuildExportStarAsDefault: dep.esbuildExportStarAsDefault,
         ignoreDts: dep.ignoreDts,
         externals: dep.externals ?? {},
         dtsExternals: dep.dtsExternals ?? [],
