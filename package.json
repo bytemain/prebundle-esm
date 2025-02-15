@@ -1,9 +1,9 @@
 {
-  "name": "prebundle",
-  "version": "1.2.7",
+  "name": "prebundle-esm",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rspack-contrib/prebundle"
+    "url": "https://github.com/bytemain/prebundle-esm"
   },
   "type": "module",
   "main": "./dist/index.js",
