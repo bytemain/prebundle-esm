@@ -60,6 +60,7 @@ export function parseTasks(
       result.push({
         minify: false,
         target: 'es2019',
+        format: 'cjs',
         externals: {},
         dtsExternals: [],
         emitFiles: [],
@@ -70,6 +71,7 @@ export function parseTasks(
     } else {
       result.push({
         minify: dep.minify ?? false,
+        format: dep.format ?? 'cjs',
         target: dep.target ?? 'es2019',
         ignoreDts: dep.ignoreDts,
         externals: dep.externals ?? {},
@@ -134,7 +136,7 @@ export function findDirectTypeFile(filepath: string) {
     for (const f of list) {
       try {
         return require.resolve(f, { paths: [cwd] });
-      } catch {}
+      } catch { }
     }
   };
   switch (ext) {

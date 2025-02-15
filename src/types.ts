@@ -22,6 +22,10 @@ export type DependencyConfig = {
   ignoreDts?: boolean;
   /** Target ECMA version */
   target?: string;
+  /**
+   * @default cjs
+   */
+  format?: 'cjs' | 'esm';
   /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
   /* Callback after bundle. */
@@ -46,6 +50,10 @@ export type ParsedTask = {
   importPath: string;
   ignoreDts?: boolean;
   prettier?: boolean;
+  /**
+ * @default cjs
+ */
+  format: NonNullable<DependencyConfig['format']>;
   target: NonNullable<DependencyConfig['target']>;
   minify: NonNullable<DependencyConfig['minify']>;
   depName: NonNullable<DependencyConfig['name']>;

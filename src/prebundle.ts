@@ -1,5 +1,6 @@
 import { dirname, join } from 'node:path';
 import ncc from '@vercel/ncc';
+import { build } from 'esbuild';
 import fastGlob from '../compiled/fast-glob/index.js';
 import fs from '../compiled/fs-extra/index.js';
 import rslog from '../compiled/rslog/index.js';
@@ -188,7 +189,7 @@ function emitPackageJson(
         // will be `{"type":"module"}` if the output is of esm format
         pick(JSON.parse(assets['package.json'].source), ['type']),
       );
-    } catch {}
+    } catch { }
   }
 
   fs.writeJSONSync(outputPath, pickedPackageJson);
@@ -263,19 +264,36 @@ export async function prebundle(
   const hasNodeModules = existsSync(nodeModulesPath);
   const enableCache = !process.env.CI && hasNodeModules;
 
-  const { code, assets } = await ncc(task.depEntry, {
-    minify: task.minify,
-    target: task.target,
-    externals: mergedExternals,
-    assetBuilds: false,
-    cache: enableCache ? join(nodeModulesPath, '.cache', 'ncc-cache') : false,
-  });
+  if (task.format === 'cjs') {
+    const { code, assets } = await ncc(task.depEntry, {
+      minify: task.minify,
+      target: task.target,
+      externals: mergedExternals,
+      assetBuilds: false,
+      cache: enableCache ? join(nodeModulesPath, '.cache', 'ncc-cache') : false,
+    });
 
-  await emitIndex(code, task.distPath, task.prettier);
-  emitAssets(assets, task.distPath);
+    await emitIndex(code, task.distPath, task.prettier);
+    emitAssets(assets, task.distPath);
+    emitPackageJson(task, assets);
+  } else {
+    const buildResult = await build({
+      entryPoints: [task.depEntry],
+      minify: task.minify,
+      target: task.target,
+      alias: mergedExternals,
+      format: task.format,
+      write: false,
+      bundle: true,
+    });
+
+    const file = buildResult.outputFiles[0];
+    await emitIndex(file.text, task.distPath, task.prettier);
+    emitPackageJson(task, {});
+  }
+
   await emitDts(task, mergedExternals);
   emitLicense(task);
-  emitPackageJson(task, assets);
   removeSourceMap(task);
   renameDistFolder(task);
   emitExtraFiles(task);
