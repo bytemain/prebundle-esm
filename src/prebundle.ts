@@ -281,17 +281,23 @@ export async function prebundle(
       entryPoints: [task.depEntry],
       minify: task.minify,
       target: task.target,
-      alias: mergedExternals,
+      alias: task.esbuildAlias,
       format: task.format,
-      platform: task.platform as any,
+      platform: task.esbuildPlatform,
       write: false,
       bundle: true,
-      external: DEFAULT_ESBUILD_EXTERNALS,
+      external: [...DEFAULT_ESBUILD_EXTERNALS, ...(task.esbuildExternal || [])],
     });
 
     const file = buildResult.outputFiles[0];
     await emitIndex(file.text, task.distPath, task.prettier);
-    emitPackageJson(task, {});
+    emitPackageJson(task, {
+      'package.json': {
+        source: JSON.stringify({
+          type: 'module'
+        })
+      }
+    });
   }
 
   await emitDts(task, mergedExternals);

@@ -1,3 +1,5 @@
+import { Platform } from "esbuild";
+
 export type ImportMap = {
   path: string;
   content: string;
@@ -31,6 +33,10 @@ export type DependencyConfig = {
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
   /* Callback after bundle. */
   afterBundle?: (task: ParsedTask) => void | Promise<void>;
+
+  esbuildAlias?: Record<string, string>;
+  esbuildExternal?: string[];
+  esbuildPlatform?: Platform;
 };
 
 export type Config = {
@@ -51,13 +57,15 @@ export type ParsedTask = {
   importPath: string;
   ignoreDts?: boolean;
   prettier?: boolean;
-  platform?: string,
   /**
- * @default cjs
- */
+   * @default cjs
+   */
   format: NonNullable<DependencyConfig['format']>;
   target: NonNullable<DependencyConfig['target']>;
   minify: NonNullable<DependencyConfig['minify']>;
+  esbuildPlatform?: DependencyConfig['esbuildPlatform'];
+  esbuildAlias?: DependencyConfig['esbuildAlias'];
+  esbuildExternal?: DependencyConfig['esbuildExternal'];
   depName: NonNullable<DependencyConfig['name']>;
   externals: NonNullable<DependencyConfig['externals']>;
   dtsExternals: NonNullable<DependencyConfig['dtsExternals']>;
