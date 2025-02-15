@@ -73,6 +73,7 @@ export function parseTasks(
         minify: dep.minify ?? false,
         format: dep.format ?? 'cjs',
         target: dep.target ?? 'es2019',
+        platform: dep.platform,
         ignoreDts: dep.ignoreDts,
         externals: dep.externals ?? {},
         dtsExternals: dep.dtsExternals ?? [],

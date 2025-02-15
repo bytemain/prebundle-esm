@@ -7,6 +7,8 @@ export const DEFAULT_EXTERNALS = {
   '../../package.json': './package.json',
 };
 
+export const DEFAULT_ESBUILD_EXTERNALS = ['electron'];
+
 export const NODE_BUILTINS = [
   '_stream_duplex',
   '_stream_passthrough',

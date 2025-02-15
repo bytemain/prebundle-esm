@@ -4,7 +4,7 @@ import { build } from 'esbuild';
 import fastGlob from '../compiled/fast-glob/index.js';
 import fs from '../compiled/fs-extra/index.js';
 import rslog from '../compiled/rslog/index.js';
-import { DEFAULT_EXTERNALS, NODE_BUILTINS } from './constant.js';
+import { DEFAULT_ESBUILD_EXTERNALS, DEFAULT_EXTERNALS, NODE_BUILTINS } from './constant.js';
 import {
   findDepPath,
   findDirectTypeFile,
@@ -283,8 +283,10 @@ export async function prebundle(
       target: task.target,
       alias: mergedExternals,
       format: task.format,
+      platform: task.platform as any,
       write: false,
       bundle: true,
+      external: DEFAULT_ESBUILD_EXTERNALS,
     });
 
     const file = buildResult.outputFiles[0];

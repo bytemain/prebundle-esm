@@ -26,6 +26,7 @@ export type DependencyConfig = {
    * @default cjs
    */
   format?: 'cjs' | 'esm';
+  platform?: string;
   /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
   /* Callback after bundle. */
@@ -50,6 +51,7 @@ export type ParsedTask = {
   importPath: string;
   ignoreDts?: boolean;
   prettier?: boolean;
+  platform?: string,
   /**
  * @default cjs
  */
