@@ -46,7 +46,7 @@ export async function esbuild(task: ParsedTask) {
         minify: task.minify,
         target: task.target,
         alias: task.esbuildAlias,
-        format: task.format,
+        format: task.esbuildFormat,
         platform: task.esbuildPlatform,
         write: false,
         bundle: true,

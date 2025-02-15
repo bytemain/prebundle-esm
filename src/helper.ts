@@ -60,7 +60,6 @@ export function parseTasks(
       result.push({
         minify: false,
         target: 'es2019',
-        format: 'cjs',
         externals: {},
         dtsExternals: [],
         emitFiles: [],
@@ -71,8 +70,8 @@ export function parseTasks(
     } else {
       result.push({
         minify: dep.minify ?? false,
-        format: dep.format ?? 'cjs',
         target: dep.target ?? 'es2019',
+        esbuildFormat: dep.esbuildFormat ?? 'cjs',
         esbuildPlatform: dep.esbuildPlatform,
         esbuildAlias: dep.esbuildAlias,
         esbuildExternal: dep.esbuildExternal,

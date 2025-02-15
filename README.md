@@ -58,7 +58,7 @@ export default {
       esbuildPlatform: 'node',
       esbuildExportCjsNamedExport: true,
       esbuildExportStarAsDefault: false,
-      format: 'esm',
+      esbuildFormat: 'esm',
     },
   ],
 };

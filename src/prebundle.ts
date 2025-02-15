@@ -264,32 +264,35 @@ export async function prebundle(
   const nodeModulesPath = join(process.cwd(), 'node_modules');
   const hasNodeModules = existsSync(nodeModulesPath);
   const enableCache = !process.env.CI && hasNodeModules;
+  let code: string;
+  let assets: Record<string, { source: string }>;
 
-  if (task.format === 'cjs') {
-    const { code, assets } = await ncc(task.depEntry, {
+  if (task.esbuildFormat) {
+    const buildResult = await esbuild(task);
+    const file = buildResult.outputFiles[0];
+    code = file.text;
+    assets = {
+      'package.json': {
+        source: JSON.stringify({
+          type: task.esbuildFormat === 'esm' ? 'module' : 'commonjs'
+        })
+      }
+    };
+  } else {
+    const result = await ncc(task.depEntry, {
       minify: task.minify,
       target: task.target,
       externals: mergedExternals,
       assetBuilds: false,
       cache: enableCache ? join(nodeModulesPath, '.cache', 'ncc-cache') : false,
     });
-
-    await emitIndex(code, task.distPath, task.prettier);
-    emitAssets(assets, task.distPath);
-    emitPackageJson(task, assets);
-  } else {
-    const buildResult = await esbuild(task);
-    const file = buildResult.outputFiles[0];
-    await emitIndex(file.text, task.distPath, task.prettier);
-    emitPackageJson(task, {
-      'package.json': {
-        source: JSON.stringify({
-          type: 'module'
-        })
-      }
-    });
+    code = result.code;
+    assets = result.assets;
   }
 
+  await emitIndex(code, task.distPath, task.prettier);
+  emitAssets(assets, task.distPath);
+  emitPackageJson(task, assets);
   await emitDts(task, mergedExternals);
   emitLicense(task);
   removeSourceMap(task);

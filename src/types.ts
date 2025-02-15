@@ -24,16 +24,17 @@ export type DependencyConfig = {
   ignoreDts?: boolean;
   /** Target ECMA version */
   target?: string;
-  /**
-   * @default cjs
-   */
-  format?: 'cjs' | 'esm';
+
   platform?: string;
   /* Callback before bundle. */
   beforeBundle?: (task: ParsedTask) => void | Promise<void>;
   /* Callback after bundle. */
   afterBundle?: (task: ParsedTask) => void | Promise<void>;
 
+  /**
+   * @default cjs
+   */
+  esbuildFormat?: 'cjs' | 'esm';
   esbuildAlias?: Record<string, string>;
   esbuildExternal?: string[];
   esbuildPlatform?: Platform;
@@ -66,14 +67,11 @@ export type ParsedTask = {
   importPath: string;
   ignoreDts?: boolean;
   prettier?: boolean;
-  /**
-   * @default cjs
-   */
-  format: NonNullable<DependencyConfig['format']>;
   target: NonNullable<DependencyConfig['target']>;
   minify: NonNullable<DependencyConfig['minify']>;
   esbuildPlatform?: DependencyConfig['esbuildPlatform'];
   esbuildAlias?: DependencyConfig['esbuildAlias'];
+  esbuildFormat?: NonNullable<DependencyConfig['esbuildFormat']>;
   esbuildExternal?: DependencyConfig['esbuildExternal'];
   esbuildExportStarAsDefault?: DependencyConfig['esbuildExportStarAsDefault'];
   esbuildExportCjsNamedExport?: DependencyConfig['esbuildExportCjsNamedExport'];
