@@ -64,6 +64,8 @@ export default {
 };
 ```
 
+But when your package is mixing cjs and esm, you'd better choose `esbuildFormat: 'cjs'`, please see <https://dev.to/marcogrcr/nodejs-and-esbuild-beware-of-mixing-cjs-and-esm-493n> for details.
+
 ### externals
 
 Externals to leave as requires of the build.

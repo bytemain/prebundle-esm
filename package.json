@@ -23,6 +23,7 @@
     "bump": "npx bumpp"
   },
   "dependencies": {
+    "@hyrious/esbuild-plugin-commonjs": "^0.2.4",
     "@vercel/ncc": "0.38.3",
     "esbuild": "^0.25.0",
     "prettier": "^3.4.2",

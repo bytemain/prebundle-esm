@@ -2,6 +2,7 @@ import { build, Plugin } from "esbuild";
 import { ParsedTask } from "./types.js";
 import { DEFAULT_ESBUILD_EXTERNALS, NODE_BUILTINS } from "./constant.js";
 import { createRequire } from "node:module";
+import { commonjs } from '@hyrious/esbuild-plugin-commonjs';
 
 const require = createRequire(import.meta.url);
 const { dirname: __dirname } = import.meta;
@@ -36,7 +37,7 @@ export default _default;
 }
 
 export async function esbuild(task: ParsedTask) {
-    const plugins: Plugin[] = [];
+    const plugins: Plugin[] = [commonjs()];
     if (task.esbuildExportCjsNamedExport) {
         plugins.push(createCjsToEsmPlugin(task));
     }
