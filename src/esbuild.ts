@@ -11,7 +11,6 @@ const cjs_to_esm_plugin: Plugin = {
     name: 'cjs-to-esm',
     setup(build) {
         build.onResolve({ filter: /.*/ }, args => {
-            console.log("args", args);
             if (args.importer === '') return { path: args.path, namespace: 'c2e' }
         })
         build.onLoad({ filter: /.*/, namespace: 'c2e' }, args => {
