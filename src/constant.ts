@@ -1,3 +1,5 @@
+import { builtinModules } from 'node:module';
+
 export const DIST_DIR = 'compiled';
 
 export const DEFAULT_EXTERNALS = {
@@ -10,44 +12,11 @@ export const DEFAULT_EXTERNALS = {
 export const DEFAULT_ESBUILD_EXTERNALS = ['electron'];
 
 export const NODE_BUILTINS = [
-  '_stream_duplex',
-  '_stream_passthrough',
-  '_stream_readable',
-  '_stream_transform',
-  '_stream_writable',
-  'assert',
-  'buffer',
-  'child_process',
-  'cluster',
-  'console',
-  'constants',
-  'crypto',
-  'dgram',
-  'dns',
-  'domain',
-  'events',
-  'fs',
-  'http',
-  'https',
-  'module',
-  'net',
-  'os',
-  'path',
-  'process',
-  'punycode',
-  'querystring',
-  'readline',
-  'repl',
-  'stream',
-  'string_decoder',
-  'sys',
-  'timers',
-  'tls',
-  'tty',
-  'url',
-  'util',
-  'vm',
-  'zlib',
+  ...builtinModules
 ];
+
+builtinModules.forEach((builtin) => {
+  NODE_BUILTINS.push(`node:${builtin}`);
+});
 
 export const cwd = process.cwd();

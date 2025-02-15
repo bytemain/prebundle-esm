@@ -1,6 +1,6 @@
 import { build, Plugin } from "esbuild";
 import { ParsedTask } from "./types.js";
-import { DEFAULT_ESBUILD_EXTERNALS } from "./constant.js";
+import { DEFAULT_ESBUILD_EXTERNALS, NODE_BUILTINS } from "./constant.js";
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
@@ -50,7 +50,7 @@ export async function esbuild(task: ParsedTask) {
         platform: task.esbuildPlatform,
         write: false,
         bundle: true,
-        external: [...DEFAULT_ESBUILD_EXTERNALS, ...(task.esbuildExternal || [])],
+        external: [...DEFAULT_ESBUILD_EXTERNALS, ...NODE_BUILTINS, ...(task.esbuildExternal || [])],
         plugins,
     });
 
