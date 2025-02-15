@@ -17,6 +17,7 @@ import { rollup, type InputOptions, type OutputOptions } from 'rollup';
 import { minify } from 'terser';
 import { format } from 'prettier';
 import { existsSync } from 'node:fs';
+import { esbuild } from './esbuild.js';
 
 const { logger } = rslog;
 
@@ -277,18 +278,7 @@ export async function prebundle(
     emitAssets(assets, task.distPath);
     emitPackageJson(task, assets);
   } else {
-    const buildResult = await build({
-      entryPoints: [task.depEntry],
-      minify: task.minify,
-      target: task.target,
-      alias: task.esbuildAlias,
-      format: task.format,
-      platform: task.esbuildPlatform,
-      write: false,
-      bundle: true,
-      external: [...DEFAULT_ESBUILD_EXTERNALS, ...(task.esbuildExternal || [])],
-    });
-
+    const buildResult = await esbuild(task);
     const file = buildResult.outputFiles[0];
     await emitIndex(file.text, task.distPath, task.prettier);
     emitPackageJson(task, {
