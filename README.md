@@ -2,7 +2,7 @@
 
 Prebundle Node.js dependencies, output a single js file, a package.json file and the dts files.
 
-Based on [ncc](https://github.com/vercel/ncc) and [rollup-plugin-dts](https://www.npmjs.com/package/rollup-plugin-dts).
+Based on [ncc](https://github.com/vercel/ncc), [esbuild](https://esbuild.github.io/) and [rollup-plugin-dts](https://www.npmjs.com/package/rollup-plugin-dts).
 
 <p>
   <a href="https://npmjs.com/package/prebundle-esm">
