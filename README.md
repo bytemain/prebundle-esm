@@ -1,12 +1,12 @@
-# Prebundle
+# Prebundle-esm
 
 Prebundle Node.js dependencies, output a single js file, a package.json file and the dts files.
 
 Based on [ncc](https://github.com/vercel/ncc) and [rollup-plugin-dts](https://www.npmjs.com/package/rollup-plugin-dts).
 
 <p>
-  <a href="https://npmjs.com/package/prebundle">
-   <img src="https://img.shields.io/npm/v/prebundle?style=flat-square&colorA=564341&colorB=EDED91" alt="npm version" />
+  <a href="https://npmjs.com/package/prebundle-esm">
+   <img src="https://img.shields.io/npm/v/prebundle-esm?style=flat-square&colorA=564341&colorB=EDED91" alt="npm version" />
   </a>
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square&colorA=564341&colorB=EDED91" alt="license" />
 </p>
@@ -24,21 +24,43 @@ Prebundle is used to:
 Run following command to prebundle all dependencies:
 
 ```bash
-npx prebundle
+npx prebundle-esm
 ```
 
 Run following command to prebundle single dependencies:
 
 ```bash
-npx prebundle <pkgName>
+npx prebundle-esm <pkgName>
 
 # For example, prebundle commander
-npx prebundle commander
+npx prebundle-esm commander
 ```
 
 ## Dependency Config
 
 Supported dependency config:
+
+### esm
+
+set `format` to `esm` to build esm package.
+
+```ts
+// prebundle.config.mjs
+/** @type {import('prebundle-esm').Config} */
+export default {
+  dependencies: [
+    {
+      name: 'foo',
+      target: 'es2015',
+    },
+    {
+      name: '@aws-sdk/client-s3',
+      esbuildPlatform: 'node',
+      format: 'esm',
+    },
+  ],
+};
+```
 
 ### externals
 
@@ -215,24 +237,3 @@ export default {
 };
 ```
 
-### esm
-
-set `format` to `esm` to build esm package.
-
-```ts
-// prebundle.config.mjs
-/** @type {import('prebundle-esm').Config} */
-export default {
-  dependencies: [
-    {
-      name: 'foo',
-      target: 'es2015',
-    },
-    {
-      name: '@aws-sdk/client-s3',
-      esbuildPlatform: 'node',
-      format: 'esm',
-    },
-  ],
-};
-```
