@@ -71,7 +71,7 @@ export function parseTasks(
       result.push({
         minify: dep.minify ?? false,
         target: dep.target ?? 'es2019',
-        esbuildFormat: dep.esbuildFormat ?? 'cjs',
+        esbuildFormat: dep.esbuildFormat,
         esbuildPlatform: dep.esbuildPlatform,
         esbuildAlias: dep.esbuildAlias,
         esbuildExternal: dep.esbuildExternal,
