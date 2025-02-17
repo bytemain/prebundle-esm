@@ -13,6 +13,9 @@ Based on [ncc](https://github.com/vercel/ncc), [esbuild](https://esbuild.github.
 
 ## Motivation
 
+`prebundle-esm` vs `prebundle`:
+- Use `esbuild` to build esm package.
+
 Prebundle is used to:
 
 - Reduce dependencies of core packages, install faster.
@@ -42,7 +45,7 @@ Supported dependency config:
 
 ### esm
 
-set `format` to `esm` to build esm package.
+set `esbuildFormat` to `esm` to build esm package.
 
 ```ts
 // prebundle.config.mjs
@@ -56,6 +59,7 @@ export default {
     {
       name: '@aws-sdk/client-s3',
       esbuildPlatform: 'node',
+      // re-export all `modules.exports`.
       esbuildExportCjsNamedExport: true,
       esbuildExportStarAsDefault: false,
       esbuildFormat: 'esm',
