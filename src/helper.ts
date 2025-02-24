@@ -21,6 +21,7 @@ export function findDepPath(name: string) {
 
     return entry;
   } catch (err) {
+    console.error(err);
     return null;
   }
 }
